@@ -8,15 +8,7 @@ function App() {
     tg.ready();
   }, []);
 
-  const onClose = () => {
-    tg.close();
-  };
-  return (
-    <div className="App">
-      live
-      <button onClick={onClose}>Закрыть</button>
-    </div>
-  );
+  return <div className="App">live</div>;
 }
 
 export default App;
