@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./Form.css";
 import { useTelegram } from "../../hooks/useTelegram";
 
@@ -7,6 +7,23 @@ const Form = () => {
   const [specialization, setSpecialization] = useState("");
   const [grade, setGrade] = useState("");
   const [language, setLanguage] = useState("rus");
+
+  const onSendData = useCallback(() => {
+    const data = {
+      specialization,
+      grade,
+      language,
+    };
+    tg.sendData(JSON.stringify(data));
+  }, [tg, specialization, grade, language]);
+
+  useEffect(() => {
+    tg.onEvent("mainButtonClicked", onSendData);
+
+    return () => {
+      tg.offEvent("mainButtonClicked", onSendData);
+    };
+  }, [tg, onSendData]);
 
   useEffect(() => {
     tg.MainButton.setParams({ text: "Отправить данные" });
